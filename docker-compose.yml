@@ -1,0 +1,15 @@
+version: "2"
+services:
+  hola:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: holaweb
+    ports:
+    - "8080:8080"
+    depends_on:
+    - mongo
+  mongo:
+    image: mongo
+    ports:
+    - "27017:27017"
