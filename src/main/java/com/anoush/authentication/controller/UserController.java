@@ -12,8 +12,12 @@ import java.util.List;
 @RestController
 public class UserController {
 
+    private final UserRepository userRepository;
+
     @Autowired
-    private UserRepository userRepository;
+    public UserController(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @GetMapping("/api/test/user")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
