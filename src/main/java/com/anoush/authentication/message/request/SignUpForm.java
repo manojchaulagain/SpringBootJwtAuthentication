@@ -1,8 +1,9 @@
 package com.anoush.authentication.message.request;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.Set;
-
-import javax.validation.constraints.*;
 
 public class SignUpForm {
     @NotBlank
@@ -17,9 +18,9 @@ public class SignUpForm {
     @Size(max = 60)
     @Email
     private String email;
-    
+
     private Set<String> role;
-    
+
     @NotBlank
     @Size(min = 6, max = 40)
     private String password;
@@ -55,12 +56,12 @@ public class SignUpForm {
     public void setPassword(String password) {
         this.password = password;
     }
-    
+
     public Set<String> getRole() {
-    	return this.role;
+        return this.role;
     }
-    
+
     public void setRole(Set<String> role) {
-    	this.role = role;
+        this.role = role;
     }
 }
