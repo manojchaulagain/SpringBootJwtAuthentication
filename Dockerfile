@@ -1,5 +1,4 @@
-FROM openjdk:10-jre-slim
-COPY ./target/SpringBootJwtAuthentication-0.0.1.jar /usr/src/anoush/
-WORKDIR /usr/src/anoush
-EXPOSE 8080
-CMD ["java", "-jar", "SpringBootJwtAuthentication-1.0.0.jar"]
+FROM openjdk:10
+COPY ./target/SpringBootJwtAuthentication-0.0.1.jar /
+WORKDIR /
+ENTRYPOINT java -jar --add-modules java.xml.bind SpringBootJwtAuthentication-1.0.0.jar

@@ -39,15 +39,13 @@ public class DataInitializer implements CommandLineRunner {
         System.out.println("printing all users...");
 //        this.users.findAll().forEach(v -> log.debug(" User :" + v.toString()));
 
-        Scanner scanner = new Scanner(new File("src/main/resources/countries.json"));
-        System.out.println(scanner.next());
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 //        List<Country> obj = Arrays.asList(mapper.readValue(new File("src/main/resources/countries.json"), mapper.getTypeFactory().constructCollectionType(List.class, Country.class)));
-        Country[] countries = mapper.readValue(new File("src/main/resources/countries.json"), Country[].class);
-        for (Country country : countries) {
+//        Country[] countries = mapper.readValue(new File("src/main/resources/countries.json"), Country[].class);
+//        for (Country country : countries) {
 //            countryRepository.save(country);
-        }
+//        }
 
 
     }

@@ -1,12 +1,12 @@
 version: "2"
 services:
-  hola:
+  authenticationapp:
     build:
-      context: ./
+      context: .
       dockerfile: Dockerfile
-    image: holaweb
+    image: springbootauthenticationapp
     ports:
-    - "8080:8080"
+    - "8888:8888"
     depends_on:
     - mongo
   mongo:
