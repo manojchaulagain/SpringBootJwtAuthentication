@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface CountryRepository extends MongoRepository<Country, Long> {
+public interface CountryRepository extends MongoRepository<Country, String> {
     Optional<Country> findByName(String name);
 }

@@ -1,5 +1,7 @@
 package com.anoush.authentication.model;
 
+import org.springframework.data.annotation.Id;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,6 +9,8 @@ import java.util.Map;
 
 public class Country {
 
+    @Id
+    private String id;
     private String name;
     private String alpha2Code;
     private String alpha3Code;
@@ -25,6 +29,14 @@ public class Country {
     private Map<String, String> translations = new HashMap<>();
     private String flagUrl;
     private String cioc;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
