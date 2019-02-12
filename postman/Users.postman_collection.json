@@ -1,15 +1,20 @@
 {
 	"info": {
-		"_postman_id": "04de044e-5053-47e4-a45d-ab3679782e37",
-		"name": "Users",
+		"_postman_id": "2be99ebc-0bc3-4feb-b9c2-ddabfa5c456c",
+		"name": "Users copy",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "GetAllUsers",
+			"name": "GetAllUsersAuth",
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{accessToken}}"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": ""
@@ -21,98 +26,6 @@
 					]
 				},
 				"description": "Gets All the metta Users"
-			},
-			"response": []
-		},
-		{
-			"name": "GetAllUsersAuth",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer {{accessToken}}",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{baseUrl}}/users",
-					"host": [
-						"{{baseUrl}}"
-					],
-					"path": [
-						"users"
-					]
-				},
-				"description": "Gets All the metta Users"
-			},
-			"response": []
-		},
-		{
-			"name": "GetUserById",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{baseUrl}}/{{userId}}",
-					"host": [
-						"{{baseUrl}}"
-					],
-					"path": [
-						"{{userId}}"
-					]
-				},
-				"description": "Gets All the metta Users"
-			},
-			"response": []
-		},
-		{
-			"name": "CreatUser",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "6d8366ad-2a31-4a8a-8b07-16008c67db55",
-						"exec": [
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"disabled": false
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"name\": \"Manoj\",\n  \"username\": \"manoj\",\n  \"email\": \"22@gmail.com\",\n  \"role\" : [\"user\",\"pm\"],\n  \"password\": \"12345678\"\n}"
-				},
-				"url": {
-					"raw": "localhost:8080/api/auth/signup",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"auth",
-						"signup"
-					]
-				}
 			},
 			"response": []
 		},
@@ -139,37 +52,14 @@
 			"response": []
 		},
 		{
-			"name": "GenerateToken",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{base}}/oauth/token",
-					"host": [
-						"{{base}}"
-					],
-					"path": [
-						"oauth",
-						"token"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "AdminToken",
+			"name": "CreateAdminUser",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "d06d49f3-c8d6-4faa-87eb-04dc6ae1204d",
+						"id": "6d8366ad-2a31-4a8a-8b07-16008c67db55",
 						"exec": [
-							"var jsonData = JSON.parse(responseBody);",
-							"pm.globals.set(\"accessToken\", jsonData.accessToken);"
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -180,26 +70,21 @@
 				"header": [
 					{
 						"key": "Content-Type",
-						"name": "Content-Type",
-						"value": "application/json",
-						"type": "text"
+						"value": "application/json"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"username\": \"admin\",\n\t\"password\": \"password\"\n}"
+					"raw": "{\n  \"name\": \"Manoj Chaulagain\",\n  \"username\": \"manoj.chaulagain\",\n  \"email\": \"chaulagainmanoj45@gmail.com\",\n  \"role\" : [\"admin\"],\n  \"password\": \"N1e2p3al!\"\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/auth/signin",
-					"protocol": "http",
+					"raw": "{{base}}/auth/signup",
 					"host": [
-						"localhost"
+						"{{base}}"
 					],
-					"port": "8080",
 					"path": [
-						"api",
 						"auth",
-						"signin"
+						"signup"
 					]
 				}
 			},
@@ -225,24 +110,241 @@
 				"header": [
 					{
 						"key": "Content-Type",
-						"name": "Content-Type",
-						"type": "text",
 						"value": "application/json"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"username\": \"user\",\n\t\"password\": \"password\"\n}"
+					"raw": "{\n\t\"username\": \"menuka.dangal\",\n\t\"password\": \"N1e2p3al!\"\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/auth/signin",
-					"protocol": "http",
+					"raw": "{{base}}/auth/signin",
 					"host": [
-						"localhost"
+						"{{base}}"
 					],
-					"port": "8080",
 					"path": [
-						"api",
+						"auth",
+						"signin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AdminToken",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ea8b8a02-1e4a-499d-867b-b60e2247c57d",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"pm.globals.set(\"accessToken\", jsonData.accessToken);",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"manoj.chaulagain\",\n\t\"password\": \"N1e2p3al!\"\n}"
+				},
+				"url": {
+					"raw": "{{base}}/auth/signin",
+					"host": [
+						"{{base}}"
+					],
+					"path": [
+						"auth",
+						"signin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetUserById",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{baseUrl}}/{{userId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"{{userId}}"
+					]
+				},
+				"description": "Gets All the metta Users"
+			},
+			"response": []
+		},
+		{
+			"name": "GetAllUsers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{baseUrl}}",
+					"host": [
+						"{{baseUrl}}"
+					]
+				},
+				"description": "Gets All the metta Users"
+			},
+			"response": []
+		},
+		{
+			"name": "GenerateToken",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{base}}/oauth/token",
+					"host": [
+						"{{base}}"
+					],
+					"path": [
+						"oauth",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreatePmUser",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6d8366ad-2a31-4a8a-8b07-16008c67db55",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Dipak Adhikari\",\n  \"username\": \"dipak.adhikari\",\n  \"email\": \"bjaydip.1992@gmail.com\",\n  \"role\" : [\"pm\"],\n  \"password\": \"N1e2p3al!\"\n}"
+				},
+				"url": {
+					"raw": "{{base}}/auth/signup",
+					"host": [
+						"{{base}}"
+					],
+					"path": [
+						"auth",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateUser",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6d8366ad-2a31-4a8a-8b07-16008c67db55",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Menuka Dangal\",\n  \"username\": \"menuka.dangal\",\n  \"email\": \"tikaram.phuyal1@gmail.com\",\n  \"role\" : [\"user\"],\n  \"password\": \"N1e2p3al!\"\n}"
+				},
+				"url": {
+					"raw": "{{base}}/auth/signup",
+					"host": [
+						"{{base}}"
+					],
+					"path": [
+						"auth",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PmToken",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d06d49f3-c8d6-4faa-87eb-04dc6ae1204d",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"pm.globals.set(\"accessToken\", jsonData.accessToken);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"dipak.adhikari\",\n\t\"password\": \"N1e2p3al!\"\n}"
+				},
+				"url": {
+					"raw": "{{base}}/auth/signin",
+					"host": [
+						"{{base}}"
+					],
+					"path": [
 						"auth",
 						"signin"
 					]

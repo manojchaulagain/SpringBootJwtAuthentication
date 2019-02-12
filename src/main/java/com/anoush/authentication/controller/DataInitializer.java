@@ -1,14 +1,15 @@
 package com.anoush.authentication.controller;
 
-import com.anoush.authentication.model.Country;
-import com.anoush.authentication.model.Role;
-import com.anoush.authentication.model.RoleName;
-import com.anoush.authentication.model.User;
+import com.anoush.authentication.model.*;
 import com.anoush.authentication.repository.CountryRepository;
 import com.anoush.authentication.repository.RoleRepository;
+import com.anoush.authentication.repository.StockSymbolRepository;
 import com.anoush.authentication.repository.UserRepository;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.opencsv.bean.CsvToBean;
+import com.opencsv.bean.CsvToBeanBuilder;
+import com.opencsv.bean.HeaderColumnNameMappingStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
+import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Component
@@ -34,15 +40,18 @@ public class DataInitializer implements CommandLineRunner {
 
     private final UserRepository userRepository;
 
+    private final StockSymbolRepository stockSymbolRepository;
+
     @Value("${anoush.app.mongo.initialize.data}")
     private boolean load;
 
     @Autowired
-    public DataInitializer(RoleRepository roleRepository, CountryRepository countryRepository, PasswordEncoder passwordEncoder, UserRepository userRepository) {
+    public DataInitializer(RoleRepository roleRepository, CountryRepository countryRepository, PasswordEncoder passwordEncoder, UserRepository userRepository, StockSymbolRepository stockSymbolRepository) {
         this.roleRepository = roleRepository;
         this.countryRepository = countryRepository;
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
+        this.stockSymbolRepository = stockSymbolRepository;
     }
 
     @Override
@@ -51,9 +60,38 @@ public class DataInitializer implements CommandLineRunner {
             logger.info("Loading Data.");
             addUsers();
             addCountries();
+            addStockSymbols();
         } else {
             logger.info("Data loading is turned off.");
         }
+    }
+
+    private void addStockSymbols() {
+        try {
+            List<CsvBean> csvBeans = beanBuilder(Paths.get("src/main/resources/stocks/amexlist.csv"), StockSymbol.class);
+            csvBeans.addAll(beanBuilder(Paths.get("src/main/resources/stocks/nasdaqlist.csv"), StockSymbol.class));
+            csvBeans.addAll(beanBuilder(Paths.get("src/main/resources/stocks/nyselist.csv"), StockSymbol.class));
+            csvBeans.forEach(bean -> stockSymbolRepository.save((StockSymbol) bean));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public List<CsvBean> beanBuilder(Path path, Class clazz) throws Exception {
+        CsvTransfer csvTransfer = new CsvTransfer();
+        HeaderColumnNameMappingStrategy<StockSymbol> ms = new HeaderColumnNameMappingStrategy<>();
+        ms.setType(clazz);
+
+        Reader reader = Files.newBufferedReader(path);
+        CsvToBean cb = new CsvToBeanBuilder(reader)
+                .withType(clazz)
+                .withMappingStrategy(ms)
+                .build();
+
+        csvTransfer.setCsvList(cb.parse());
+        reader.close();
+        return csvTransfer.getCsvList();
     }
 
     private void addCountries() throws java.io.IOException {
