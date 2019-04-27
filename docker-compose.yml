@@ -1,15 +1,37 @@
 version: "2"
 services:
+  zookeeper:
+    container_name: zookeeper
+    build:
+      context: .
+      dockerfile: docs/zookeeper/Dockerfile
+    image: zookeeper
+    ports:
+      - "2181:2181"
+  kafka:
+    container_name: kafka
+    build:
+      context: .
+      dockerfile: docs/kafka/Dockerfile
+    image: kafka
+    ports:
+      - "9092:9092"
+    depends_on:
+      - zookeeper
   authenticationapp:
+    container_name: app
     build:
       context: .
       dockerfile: Dockerfile
-    image: springbootauthenticationapp
+    image: sbapp
     ports:
-    - "8888:8888"
+    - "8080:8080"
+    environment:
+      - SPRING_DATA_MONGODB_URL=mongodb://appmongodb:27017/anoush
     depends_on:
     - mongo
   mongo:
+    container_name: appmongodb
     image: mongo
     ports:
     - "27017:27017"
