@@ -59,8 +59,8 @@ public class DataInitializer implements CommandLineRunner {
         if (load) {
             logger.info("Loading Data.");
             addUsers();
-            addCountries();
-            addStockSymbols();
+//            addCountries();
+//            addStockSymbols();
         } else {
             logger.info("Data loading is turned off.");
         }
