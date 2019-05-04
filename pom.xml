@@ -26,6 +26,9 @@
         <jjwt.version>0.9.1</jjwt.version>
         <jaxb-api.version>2.4.0-b180830.0359</jaxb-api.version>
         <opencsv.version>4.5</opencsv.version>
+        <graphql.version>5.0.2</graphql.version>
+        <graphql.java.tools.version>5.2.4</graphql.java.tools.version>
+        <lombok.version>1.18.6</lombok.version>
     </properties>
 
     <dependencies>
@@ -88,9 +91,27 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.6</version>
+            <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
+
+        <!-- GraphQl -->
+        <dependency>
+            <groupId>com.graphql-java</groupId>
+            <artifactId>graphql-spring-boot-starter</artifactId>
+            <version>${graphql.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.graphql-java</groupId>
+            <artifactId>graphql-java-tools</artifactId>
+            <version>${graphql.java.tools.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.graphql-java</groupId>
+            <artifactId>graphiql-spring-boot-starter</artifactId>
+            <version>${graphql.version}</version>
+        </dependency>
+
     </dependencies>
 
     <build>

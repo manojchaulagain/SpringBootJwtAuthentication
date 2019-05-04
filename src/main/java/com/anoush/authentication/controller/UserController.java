@@ -1,27 +1,27 @@
 package com.anoush.authentication.controller;
 
-import com.anoush.authentication.model.User;
-import com.anoush.authentication.repository.UserRepository;
+import com.anoush.authentication.utilities.GraphQlUtility;
+import graphql.ExecutionResult;
+import graphql.GraphQL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.Optional;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/api")
 public class UserController {
 
-    private final UserRepository userRepository;
+    private GraphQL graphQL;
 
     @Autowired
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserController(GraphQlUtility graphQlUtility) throws IOException {
+        this.graphQL = graphQlUtility.createGraphQlObject();
     }
 
     @GetMapping("/test/user")
@@ -44,14 +44,15 @@ public class UserController {
 
     @GetMapping("/users")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<List<User>> getUsers() {
-        return ResponseEntity.ok(userRepository.findAll());
+    public ResponseEntity getUsers(@RequestBody String query) {
+        ExecutionResult result = graphQL.execute(query);
+        return ResponseEntity.ok(result.getData());
     }
 
-    @GetMapping("/users/{userName}")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> getUsers(@PathVariable String userName) {
-        Optional<User> userOptional = userRepository.findByUsername(userName);
-        return userOptional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-    }
+//    @GetMapping("/users/{userName}")
+//    @PreAuthorize("hasRole('ADMIN')")
+//    public ResponseEntity<?> getUsers(@PathVariable String userName) {
+//        Optional<User> userOptional = userRepository.findByUsername(userName);
+//        return userOptional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+//    }
 }

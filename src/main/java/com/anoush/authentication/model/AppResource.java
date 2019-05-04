@@ -18,7 +18,7 @@ import org.springframework.data.annotation.Id;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Resource {
+public class AppResource {
 
    /*--------------------------------------------
     |             C O N S T A N T S             |

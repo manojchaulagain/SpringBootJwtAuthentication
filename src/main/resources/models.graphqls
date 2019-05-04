@@ -1,0 +1,27 @@
+schema {
+    query : Query
+}
+
+type Query {
+    users: [User]
+    user(id: String): User
+}
+
+type User {
+    id: String
+    name: String
+    username: String
+    email: String
+    roles: [Role]
+}
+
+type Role {
+    id: String
+    name: RoleName
+}
+
+enum RoleName {
+    ROLE_ADMIN
+    ROLE_USER
+    ROLE_PM
+}
