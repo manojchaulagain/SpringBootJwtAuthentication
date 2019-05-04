@@ -50,7 +50,7 @@ public class UserController {
 
     @GetMapping("/users/{userName}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> getUsxers(@PathVariable String userName) {
+    public ResponseEntity<?> getUsers(@PathVariable String userName) {
         Optional<User> userOptional = userRepository.findByUsername(userName);
         return userOptional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }

@@ -23,9 +23,7 @@ import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.IntStream;
 
 @Component
@@ -81,7 +79,7 @@ public class DataInitializer implements CommandLineRunner {
 
     }
 
-    public List<CsvBean> beanBuilder(Path path, Class clazz) throws Exception {
+    private List<CsvBean> beanBuilder(Path path, Class clazz) throws Exception {
         CsvTransfer csvTransfer = new CsvTransfer();
         HeaderColumnNameMappingStrategy<StockSymbol> ms = new HeaderColumnNameMappingStrategy<>();
         ms.setType(clazz);
