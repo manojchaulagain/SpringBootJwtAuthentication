@@ -1,6 +1,10 @@
 package com.anoush.authentication.model;
 
 import com.mongodb.gridfs.GridFS;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
 
 /**
@@ -9,6 +13,11 @@ import org.springframework.data.annotation.Id;
  * Date: 2019-05-04
  * Time: 00:46
  */
+
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Resource {
 
    /*--------------------------------------------
@@ -19,10 +28,10 @@ public class Resource {
     |    I N S T A N C E   V A R I A B L E S    |
     ============================================*/
 
-   @Id
-   private String id;
+    @Id
+    private String id;
 
-   GridFS gridFS;
+    GridFS gridFS;
    /*--------------------------------------------
     |         C O N S T R U C T O R S           |
     ============================================*/
