@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -84,26 +85,21 @@ public class AuthenticationController {
 
         Set<String> strRoles = signUpRequest.getRole();
         Set<Role> roles = new HashSet<>();
-        roles.forEach(roleRepository::save);
-
         strRoles.forEach(role -> {
             switch (role) {
                 case "admin":
-                    Role adminRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
-                            .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
-                    roles.add(adminRole);
-
+                    checkRoles(roles, RoleName.ROLE_ADMIN);
                     break;
                 case "pm":
-                    Role pmRole = roleRepository.findByName(RoleName.ROLE_PM)
-                            .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
-                    roles.add(pmRole);
-
+                    checkRoles(roles, RoleName.ROLE_PM);
+                    break;
+                case "user":
+                    checkRoles(roles, RoleName.ROLE_USER);
                     break;
                 default:
-                    Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
+                    Role defaultRole = roleRepository.findByName(RoleName.ROLE_USER)
                             .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
-                    roles.add(userRole);
+                    roles.add(defaultRole);
             }
         });
 
@@ -111,5 +107,14 @@ public class AuthenticationController {
         userRepository.save(user);
 
         return ResponseEntity.ok().body("User registered successfully!");
+    }
+
+    private void checkRoles(Set<Role> roles, RoleName roleName) {
+        Optional<Role> adminRole = roleRepository.findByName(roleName);
+        if (!adminRole.isPresent()) {
+            roles.add(roleRepository.save(new Role(roleName)));
+        } else {
+            roles.add(adminRole.get());
+        }
     }
 }

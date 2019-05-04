@@ -13,6 +13,8 @@ services:
     build:
       context: .
       dockerfile: docs/kafka/Dockerfile
+    #      args:
+    #        listeners: PLAINTEXT://localhost:9092
     image: kafka
     ports:
       - "9092:9092"
@@ -25,13 +27,19 @@ services:
       dockerfile: Dockerfile
     image: sbapp
     ports:
-    - "8080:8080"
+      - "8080:8080"
     environment:
       - SPRING_DATA_MONGODB_URL=mongodb://appmongodb:27017/anoush
     depends_on:
-    - mongo
+      - mongo
   mongo:
     container_name: appmongodb
     image: mongo
     ports:
-    - "27017:27017"
+      - "27017:27017"
+    volumes:
+      - mongodb:/data/db
+      - mongodb_config:/data/configdb
+volumes:
+  mongodb:
+  mongodb_config:

@@ -10,11 +10,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 import com.opencsv.bean.HeaderColumnNameMappingStrategy;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.task.TaskExecutor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -26,11 +26,11 @@ import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.IntStream;
 
 @Component
+@Slf4j
 public class DataInitializer implements CommandLineRunner {
-
-    private static final Logger logger = LoggerFactory.getLogger(DataInitializer.class);
 
     private final RoleRepository roleRepository;
 
@@ -42,27 +42,30 @@ public class DataInitializer implements CommandLineRunner {
 
     private final StockSymbolRepository stockSymbolRepository;
 
+    private TaskExecutor taskExecutor;
+
     @Value("${anoush.app.mongo.initialize.data}")
     private boolean load;
 
     @Autowired
-    public DataInitializer(RoleRepository roleRepository, CountryRepository countryRepository, PasswordEncoder passwordEncoder, UserRepository userRepository, StockSymbolRepository stockSymbolRepository) {
+    public DataInitializer(RoleRepository roleRepository, CountryRepository countryRepository, PasswordEncoder passwordEncoder, UserRepository userRepository, StockSymbolRepository stockSymbolRepository, TaskExecutor taskExecutor) {
         this.roleRepository = roleRepository;
         this.countryRepository = countryRepository;
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.stockSymbolRepository = stockSymbolRepository;
+        this.taskExecutor = taskExecutor;
     }
 
     @Override
     public void run(String... args) throws Exception {
         if (load) {
-            logger.info("Loading Data.");
+            log.info("Loading Data.");
             addUsers();
-//            addCountries();
-//            addStockSymbols();
+            addCountries();
+            addStockSymbols();
         } else {
-            logger.info("Data loading is turned off.");
+            log.info("Data loading is turned off.");
         }
     }
 
@@ -95,7 +98,7 @@ public class DataInitializer implements CommandLineRunner {
     }
 
     private void addCountries() throws java.io.IOException {
-        logger.info("Adding Countries.");
+        log.info("Adding Countries.");
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         Country[] countries = mapper.readValue(new File("src/main/resources/countries.json"), Country[].class);
@@ -103,43 +106,20 @@ public class DataInitializer implements CommandLineRunner {
         for (Country country : countries) {
             countryRepository.save(country);
             i++;
-            if (i == countries.length) logger.info("Added all the countries to the database.");
+            if (i == countries.length) log.info("Added all the countries to the database.");
         }
     }
 
     private void addUsers() {
-        logger.info("Adding Roles.");
-        int i = 0;
+        log.info("Adding Roles.");
         for (RoleName roleName : RoleName.values()) {
             Role role = new Role(roleName);
-            Role savedRole = roleRepository.save(role);
-            switch (savedRole.getName()) {
-                case ROLE_PM:
-                    addUser(savedRole, "Dipak Adhikari", "dipak.adhikari", "bjaydip.1992@gmail.com");
-                    break;
-                case ROLE_USER:
-                    addUser(savedRole, "Menuka Dangal", "menuka.dangal", "tikaram.phuyal1@gmail.com");
-                    break;
-                case ROLE_ADMIN:
-                    addUser(savedRole, "Manoj Chaulagain", "manoj.chaulagain", "chaulagainmanoj45@gmail.com");
-                    break;
-            }
-            i++;
-            if (i == RoleName.values().length) logger.info("Added all the roles to the database.");
+            roleRepository.save(role);
         }
-    }
-
-    private void addUser(Role savedRole, String name, String userName, String email) {
-        Set<Role> roleSet = new HashSet<>();
-        roleSet.add(savedRole);
-        userRepository.save(
-                new User(
-                        name,
-                        userName,
-                        email,
-                        passwordEncoder.encode("N1e2p3al!"),
-                        roleSet
-                )
-        );
+        final int range = 10;
+        IntStream.range(0, 10).forEach(i -> {
+            int startIndex = range * i;
+            taskExecutor.execute(new ThreadedDataInitializer(roleRepository, userRepository, startIndex, range, passwordEncoder));
+        });
     }
 }
