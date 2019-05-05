@@ -1,6 +1,7 @@
 package com.anoush.authentication.security.jwt;
 
 import com.anoush.authentication.security.services.UserDetailsServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@Slf4j
 public class JwtAuthTokenFilter extends OncePerRequestFilter {
-
-    private static final Logger logger = LoggerFactory.getLogger(JwtAuthTokenFilter.class);
 
     @Autowired
     private JwtProvider tokenProvider;
@@ -43,7 +43,7 @@ public class JwtAuthTokenFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         } catch (Exception e) {
-            logger.error("Can NOT set user authentication -> Message: {}", e);
+            log.error("Can NOT set user authentication -> Message: {0}", e);
         }
 
         filterChain.doFilter(request, response);

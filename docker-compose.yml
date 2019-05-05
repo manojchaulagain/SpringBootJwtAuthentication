@@ -13,8 +13,8 @@ services:
     build:
       context: .
       dockerfile: docs/kafka/Dockerfile
-    #      args:
-    #        listeners: PLAINTEXT://localhost:9092
+      args:
+        listeners: PLAINTEXT://localhost:9092
     image: kafka
     ports:
       - "9092:9092"
