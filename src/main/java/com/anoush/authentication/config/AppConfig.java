@@ -36,7 +36,7 @@ public class AppConfig {
         //
         // Create an instance of AWSSecurityTokenServiceClient
         //
-        AWSSecurityTokenServiceClient sts_client = (AWSSecurityTokenServiceClient) AWSSecurityTokenServiceClientBuilder.defaultClient();
+        AWSSecurityTokenServiceClient sts_client = (AWSSecurityTokenServiceClient) AWSSecurityTokenServiceClientBuilder.standard().build();
         //
         // Get session token request object; Set credentials validity duration
         //
