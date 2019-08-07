@@ -1,17 +1,17 @@
 package com.anoush.authentication.controller;
 
+import com.anoush.authentication.model.User;
+import com.anoush.authentication.repository.UserRepository;
 import com.anoush.authentication.utilities.GraphQlUtility;
 import graphql.ExecutionResult;
 import graphql.GraphQL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -19,10 +19,10 @@ public class UserController {
 
     private GraphQL graphQL;
 
-    @Autowired
-    public UserController(GraphQlUtility graphQlUtility) throws IOException {
-        this.graphQL = graphQlUtility.createGraphQlObject();
-    }
+//    @Autowired
+//    public UserController(GraphQlUtility graphQlUtility) throws IOException {
+//        this.graphQL = graphQlUtility.createGraphQlObject();
+//    }
 
     @GetMapping("/test/user")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
@@ -42,12 +42,12 @@ public class UserController {
         return ">>> Admin Contents";
     }
 
-    @GetMapping("/users")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity getUsers(@RequestBody String query) {
-        ExecutionResult result = graphQL.execute(query);
-        return ResponseEntity.ok(result.getData());
-    }
+//    @GetMapping("/users")
+//    @PreAuthorize("hasRole('ADMIN')")
+//    public ResponseEntity getUsers(@RequestBody String query) {
+//        ExecutionResult result = graphQL.execute(query);
+//        return ResponseEntity.ok(result.getData());
+//    }
 
 //    @GetMapping("/users/{userName}")
 //    @PreAuthorize("hasRole('ADMIN')")

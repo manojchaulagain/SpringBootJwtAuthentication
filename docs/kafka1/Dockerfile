@@ -6,7 +6,9 @@ RUN ["tar", "zxvf", "kafka.tgz"]
 #ADD docs/kafka/kafka /kafka
 WORKDIR /kafka_2.11-2.2.0
 RUN sleep 15 && sed -i 's/zookeeper.connect=localhost:2181/zookeeper.connect=zookeeper:2181/g' ./config/server.properties
-#RUN sed -i "$ a listeners=${listeners}" ./config/server.properties
+RUN sed -i 's/broker.id=0/broker.id=11/g' ./config/server.properties
+RUN sed -i 's/kafka-logs/kafka-logs1/g' ./config/server.properties
+RUN sed -i "$ a listeners=${listeners}" ./config/server.properties
 RUN sed -i "$ a advertised.listeners=${listeners}" ./config/server.properties
 ENTRYPOINT ["/bin/sh", "-c", "./bin/kafka-server-start.sh ./config/server.properties"]
-EXPOSE 9092
+EXPOSE 9094

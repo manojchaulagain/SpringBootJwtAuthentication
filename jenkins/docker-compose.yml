@@ -1,17 +1,17 @@
 version: "2"
 services:
-#  gitlab:
-#    container_name: gitlab
-#    image: gitlab/gitlab-ce
-#    user: root
-#    ports:
-#      - "8080:8080"
-#      - "8443:8443"
-#      - "50000:50000"
-#    volumes:
-#      - jenkins_data:/var/jenkins_home
-#      - jenkins_home:/home
-#      - /var/run/docker.sock:/var/run/docker.sock
+  gitlab:
+    container_name: gitlab
+    image: gitlab/gitlab-ce
+    user: root
+    ports:
+      - "8080:8080"
+      - "8443:8443"
+      - "50000:50000"
+    volumes:
+      - jenkins_data:/var/jenkins_home
+      - jenkins_home:/home
+      - /var/run/docker.sock:/var/run/docker.sock
 
 #  zookeeper:
 #    container_name: zookeeper
@@ -95,14 +95,14 @@ services:
 #      - app3
 #    ports:
 #      - '8082:8082'
-  mongo:
-    container_name: appmongodb
-    image: mongo
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongodb:/data/db
-      - mongodb_config:/data/configdb
+#  mongo:
+#    container_name: appmongodb
+#    image: mongo
+#    ports:
+#      - "27017:27017"
+#    volumes:
+#      - mongodb:/data/db
+#      - mongodb_config:/data/configdb
 #  jenkins:
 #    container_name: jenkins
 #    image: jenkins/jenkins
@@ -115,9 +115,9 @@ services:
 #      - jenkins_data:/var/jenkins_home
 #      - jenkins_home:/home
 #      - /var/run/docker.sock:/var/run/docker.sock
-volumes:
-  mongodb:
-  mongodb_config:
+#volumes:
+#  mongodb:
+#  mongodb_config:
 #  application:
 #  jenkins_data:
 #  jenkins_home:

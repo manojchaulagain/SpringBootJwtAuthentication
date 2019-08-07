@@ -1,0 +1,1 @@
+docker exec -it gitlabrunner gitlab-runner register -n --url http://10.0.0.140:8080/ --registration-token DwxNMrywRzaNWWNd1ay8 --clone-url http://10.0.0.140:8080/ --executor docker --docker-image "docker:latest" --docker-privileged

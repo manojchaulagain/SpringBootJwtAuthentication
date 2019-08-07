@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -28,6 +29,7 @@ import java.util.stream.IntStream;
 
 @Component
 @Slf4j
+@RefreshScope
 public class DataInitializer implements CommandLineRunner {
 
     private final RoleRepository roleRepository;
@@ -114,8 +116,8 @@ public class DataInitializer implements CommandLineRunner {
             Role role = new Role(roleName);
             roleRepository.save(role);
         }
-        final int range = 10;
-        IntStream.range(0, 10).forEach(i -> {
+        final int range = 1;
+        IntStream.range(0, 1).forEach(i -> {
             int startIndex = range * i;
             taskExecutor.execute(new ThreadedDataInitializer(roleRepository, userRepository, startIndex, range, passwordEncoder));
         });

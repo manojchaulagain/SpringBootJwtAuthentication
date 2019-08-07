@@ -118,6 +118,13 @@
             <version>${graphql.version}</version>
         </dependency>
 
+        <!-- AWS Java SDK -->
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk</artifactId>
+            <version>1.11.163</version>
+        </dependency>
+
     </dependencies>
 
     <dependencyManagement>

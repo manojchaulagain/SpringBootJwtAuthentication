@@ -61,13 +61,13 @@ public class ThreadedDataInitializer implements Runnable {
                         Role savedRole = savedRoleOptional.get();
                         switch (savedRole.getName()) {
                             case ROLE_PM:
-                                addUser(savedRole, "Dipak Adhikari " + i, "dipak.adhikari" + i, "bjaydip.1992" + i + "@gmail.com");
+                                addUser(savedRole, "Dipak Adhikari", "dipak.adhikari", "bjaydip.1992" + "@gmail.com");
                                 break;
                             case ROLE_USER:
-                                addUser(savedRole, "Menuka Dangal " + i, "menuka.dangal" + i, "tikaram.phuyal1" + i + "@gmail.com");
+                                addUser(savedRole, "Menuka Dangal", "menuka.dangal", "tikaram.phuyal1" + "@gmail.com");
                                 break;
                             case ROLE_ADMIN:
-                                addUser(savedRole, "Manoj Chaulagain " + i, "manoj.chaulagain" + i, "chaulagainmanoj45" + i + "@gmail.com");
+                                addUser(savedRole, "Manoj Chaulagain", "manoj.chaulagain", "chaulagainmanoj45" + "@gmail.com");
                                 break;
                         }
                     }
@@ -89,6 +89,7 @@ public class ThreadedDataInitializer implements Runnable {
         roleSet.add(savedRole);
         userRepository.save(
                 new User(
+                        name,
                         name,
                         userName,
                         email,
