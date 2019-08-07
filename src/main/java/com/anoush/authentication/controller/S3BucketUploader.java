@@ -7,11 +7,11 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 @Component
-public class RecruiterbotApplication implements CommandLineRunner {
+public class S3BucketUploader implements CommandLineRunner {
 
     private final CloudStorage awsCloudStorage;
 
-    public RecruiterbotApplication(CloudStorage awsCloudStorage) {
+    public S3BucketUploader(CloudStorage awsCloudStorage) {
         this.awsCloudStorage = awsCloudStorage;
     }
 

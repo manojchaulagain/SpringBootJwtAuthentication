@@ -17,18 +17,18 @@ import java.util.ArrayList;
 @Component("awsCloudStorage")
 public class AWSCloudStorage implements CloudStorage {
  
-    @Autowired
-    String awsS3DataBucket;
+    private final String awsS3DataBucket;
  
     private AmazonS3 amazonS3;
 
     private AmazonDynamoDB amazonDynamoDB;
  
-    public AWSCloudStorage(@Autowired Region awsRegion, @Autowired BasicSessionCredentials sessionCredentials) {
+    public AWSCloudStorage(@Autowired Region awsRegion, @Autowired BasicSessionCredentials sessionCredentials, String awsS3DataBucket) {
         this.amazonS3 = AmazonS3ClientBuilder.standard()
                 .withCredentials(new AWSStaticCredentialsProvider(sessionCredentials)).build();
 
         this.amazonDynamoDB = AmazonDynamoDBClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(sessionCredentials)).build();
+        this.awsS3DataBucket = awsS3DataBucket;
     }
  
     public void uploadFile(String keyName, String filePath) {

@@ -12,7 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 
 @Configuration
 @Slf4j
@@ -21,9 +20,12 @@ public class AppConfig {
 
     private static final Integer TEMPORARY_CREDENTIALS_DURATION_DEFAULT = 7200;
 
-    @Value("${aws.region}") String awsRegion;
-    @Value("${aws.s3.data.bucket}") String awsS3DataBucket;
-    @Value("${aws.temporary.credentials.validity.duration}") String credentialsValidityDuration;
+    @Value("${aws.region}")
+    String awsRegion;
+    @Value("${aws.s3.data.bucket}")
+    String awsS3DataBucket;
+    @Value("${aws.temporary.credentials.validity.duration}")
+    String credentialsValidityDuration;
 
 
     @Bean(name = "awsRegion")
@@ -33,33 +35,22 @@ public class AppConfig {
 
     @Bean(name = "sessionCredentials")
     public BasicSessionCredentials sessionCredentials() {
-        //
-        // Create an instance of AWSSecurityTokenServiceClient
-        //
-        AWSSecurityTokenServiceClient sts_client = (AWSSecurityTokenServiceClient) AWSSecurityTokenServiceClientBuilder.standard().build();
-        //
-        // Get session token request object; Set credentials validity duration
-        //
-        GetSessionTokenRequest session_token_request = new GetSessionTokenRequest();
-        if(this.credentialsValidityDuration == null || this.credentialsValidityDuration.trim().equals("")) {
-            session_token_request.setDurationSeconds(TEMPORARY_CREDENTIALS_DURATION_DEFAULT);
+        AWSSecurityTokenServiceClient awsSecurityTokenServiceClient = (AWSSecurityTokenServiceClient) AWSSecurityTokenServiceClientBuilder.standard().build();
+        GetSessionTokenRequest sessionTokenRequest = new GetSessionTokenRequest();
+        if (this.credentialsValidityDuration == null || this.credentialsValidityDuration.trim().equals("")) {
+            sessionTokenRequest.setDurationSeconds(TEMPORARY_CREDENTIALS_DURATION_DEFAULT);
         } else {
-            session_token_request.setDurationSeconds(Integer.parseInt(this.credentialsValidityDuration));
+            sessionTokenRequest.setDurationSeconds(Integer.parseInt(this.credentialsValidityDuration));
         }
-        //
-        // Create an instance of GetSessionTokenResult using session token object
-        //
-        GetSessionTokenResult session_token_result =
-                sts_client.getSessionToken(session_token_request);
-        Credentials session_creds = session_token_result.getCredentials();
-        //
-        // Create an instance of BasicSessionCredentials
-        //
-        log.info("Session Access Key: {}, Session Secret Key: {}", session_creds.getAccessKeyId(), session_creds.getSecretAccessKey());
+        GetSessionTokenResult sessionTokenResult =
+                awsSecurityTokenServiceClient.getSessionToken(sessionTokenRequest);
+        Credentials credentials = sessionTokenResult.getCredentials();
+        log.info("Session Access Key: {}, Session Secret Key: {}", credentials.getAccessKeyId(), credentials.getSecretAccessKey());
+
         return new BasicSessionCredentials(
-                session_creds.getAccessKeyId(),
-                session_creds.getSecretAccessKey(),
-                session_creds.getSessionToken());
+                credentials.getAccessKeyId(),
+                credentials.getSecretAccessKey(),
+                credentials.getSessionToken());
     }
 
     @Bean(name = "awsS3DataBucket")
