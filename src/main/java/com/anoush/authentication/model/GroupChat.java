@@ -8,53 +8,47 @@ import org.springframework.data.annotation.Id;
 
 import java.util.*;
 
-/**
- * Created using IntelliJ IDEA
- * User: Manoj Chaulagain
- * Date: 2019-06-14
- * Time: 20:28
- */
+/** Created using IntelliJ IDEA User: Manoj Chaulagain Date: 2019-06-14 Time: 20:28 */
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class GroupChat {
 
-   /*--------------------------------------------
-    |             C O N S T A N T S             |
-    ============================================*/
+  /*--------------------------------------------
+  |             C O N S T A N T S             |
+  ============================================*/
 
-   /*--------------------------------------------
-    |    I N S T A N C E   V A R I A B L E S    |
-    ============================================*/
+  /*--------------------------------------------
+  |    I N S T A N C E   V A R I A B L E S    |
+  ============================================*/
 
-    @Id
-    private String id;
-    private String name;
-    private Set<ChatUser> users = new HashSet<>();
-    private List<ChatMessage> chatMessages = new ArrayList<>();
-    private Date createdDate;
-    private Location initiatedLocation;
-    private ChatUser chatCreator;
-    private ChatVisibilityType chatVisibilityType;
-    private AgeRange ageRange;
-    private ChatCategory chatCategory;
-    private long locationRange;
+  @Id private String id;
+  private String name;
+  private Set<ChatUser> users = new HashSet<>();
+  private List<ChatMessage> chatMessages = new ArrayList<>();
+  private Date createdDate;
+  private Location initiatedLocation;
+  private ChatUser chatCreator;
+  private ChatVisibilityType chatVisibilityType;
+  private AgeRange ageRange;
+  private ChatCategory chatCategory;
+  private long locationRange;
 
-   /*--------------------------------------------
-    |         C O N S T R U C T O R S           |
-    ============================================*/
+  /*--------------------------------------------
+  |         C O N S T R U C T O R S           |
+  ============================================*/
 
-   /*--------------------------------------------
-    |   P U B L I C    A P I    M E T H O D S   |
-    ============================================*/
+  /*--------------------------------------------
+  |   P U B L I C    A P I    M E T H O D S   |
+  ============================================*/
 
-   /*--------------------------------------------
-    |    N O N - P U B L I C    M E T H O D S   |
-    ============================================*/
+  /*--------------------------------------------
+  |    N O N - P U B L I C    M E T H O D S   |
+  ============================================*/
 
-   /*--------------------------------------------
-    |   A C C E S S O R S / M O D I F I E R S   |
-    ============================================*/
+  /*--------------------------------------------
+  |   A C C E S S O R S / M O D I F I E R S   |
+  ============================================*/
 
 }

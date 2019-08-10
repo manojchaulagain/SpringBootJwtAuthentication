@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface StockSymbolRepository extends MongoRepository<StockSymbol, String> {
-    Optional<StockSymbol> findBySymbol(String symbol);
+  Optional<StockSymbol> findBySymbol(String symbol);
 }

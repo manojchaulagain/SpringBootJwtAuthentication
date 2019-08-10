@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface CountryRepository extends MongoRepository<Country, String> {
-    Optional<Country> findByName(String name);
+  Optional<Country> findByName(String name);
 }

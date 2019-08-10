@@ -22,55 +22,74 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final UserDetailsServiceImpl userDetailsService;
+  private final UserDetailsServiceImpl userDetailsService;
 
-    private final JwtAuthEntryPoint unauthorizedHandler;
+  private final JwtAuthEntryPoint unauthorizedHandler;
 
-    @Autowired
-    public WebSecurityConfig(UserDetailsServiceImpl userDetailsService, JwtAuthEntryPoint unauthorizedHandler) {
-        this.userDetailsService = userDetailsService;
-        this.unauthorizedHandler = unauthorizedHandler;
-    }
+  @Autowired
+  public WebSecurityConfig(
+      UserDetailsServiceImpl userDetailsService, JwtAuthEntryPoint unauthorizedHandler) {
+    this.userDetailsService = userDetailsService;
+    this.unauthorizedHandler = unauthorizedHandler;
+  }
 
-    @Bean
-    public JwtAuthTokenFilter authenticationJwtTokenFilter() {
-        return new JwtAuthTokenFilter();
-    }
+  @Bean
+  public JwtAuthTokenFilter authenticationJwtTokenFilter() {
+    return new JwtAuthTokenFilter();
+  }
 
-    @Override
-    public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-        authenticationManagerBuilder
-                .userDetailsService(userDetailsService)
-                .passwordEncoder(passwordEncoder());
-    }
+  @Override
+  public void configure(AuthenticationManagerBuilder authenticationManagerBuilder)
+      throws Exception {
+    authenticationManagerBuilder
+        .userDetailsService(userDetailsService)
+        .passwordEncoder(passwordEncoder());
+  }
 
-    @Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
+  @Bean
+  @Override
+  public AuthenticationManager authenticationManagerBean() throws Exception {
+    return super.authenticationManagerBean();
+  }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+  @Bean
+  public PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
+  }
 
-    @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.cors().and().csrf().disable().authorizeRequests()
-//                .antMatchers("/api/auth/**", "/graphiql").permitAll()
-                .antMatchers("/api/auth/**").permitAll()
-                .antMatchers("/health/monitor").permitAll()
-                .antMatchers("/health/value").permitAll()
-                .antMatchers("/graphiql").permitAll()
-                .antMatchers("/graphiql/**").permitAll()
-                .antMatchers("/graphql").permitAll()
-                .antMatchers("/graphql/**").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+  @Override
+  protected void configure(HttpSecurity httpSecurity) throws Exception {
+    httpSecurity
+        .cors()
+        .and()
+        .csrf()
+        .disable()
+        .authorizeRequests()
+        //                .antMatchers("/api/auth/**", "/graphiql").permitAll()
+        .antMatchers("/api/auth/**")
+        .permitAll()
+        .antMatchers("/health/monitor")
+        .permitAll()
+        .antMatchers("/health/value")
+        .permitAll()
+        .antMatchers("/graphiql")
+        .permitAll()
+        .antMatchers("/graphiql/**")
+        .permitAll()
+        .antMatchers("/graphql")
+        .permitAll()
+        .antMatchers("/graphql/**")
+        .permitAll()
+        .anyRequest()
+        .authenticated()
+        .and()
+        .exceptionHandling()
+        .authenticationEntryPoint(unauthorizedHandler)
+        .and()
+        .sessionManagement()
+        .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-        httpSecurity.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-    }
+    httpSecurity.addFilterBefore(
+        authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+  }
 }

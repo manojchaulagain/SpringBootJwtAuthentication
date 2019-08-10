@@ -15,60 +15,64 @@ import java.util.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class User implements Serializable {
-    @Id
-    private String id;
+  @Id private String id;
 
-    private String firstName;
+  private String firstName;
 
-    private String lastName;
+  private String lastName;
 
-    private String middleName;
+  private String middleName;
 
-    private String username;
+  private String username;
 
-    private String email;
+  private String email;
 
-    private int age;
+  private int age;
 
-    private Set<GroupChat> groupChats = new HashSet<>();
+  private Set<GroupChat> groupChats = new HashSet<>();
 
-    private Date joinDate;
+  private Date joinDate;
 
-    private UserStatus userStatus;
+  private UserStatus userStatus;
 
-    private String deviceId;
+  private String deviceId;
 
-    private Location currentLocation;
+  private Location currentLocation;
 
-    private Location lastActiveLocation;
+  private Location lastActiveLocation;
 
-    private Date lastActiveDate;
+  private Date lastActiveDate;
 
-    private List<User> chatFriendship = new ArrayList<>();
+  private List<User> chatFriendship = new ArrayList<>();
 
-    private String avatarUrl;
+  private String avatarUrl;
 
-    private UserPreference userPreference;
+  private UserPreference userPreference;
 
-    @JsonIgnore
-    private String password;
+  @JsonIgnore private String password;
 
-    private Set<Role> roles = new HashSet<>();
+  private Set<Role> roles = new HashSet<>();
 
-    public User(String firstName, String lastname, String username, String email, String password) {
-        this.firstName = firstName;
-        this.lastName = lastname;
-        this.username = username;
-        this.email = email;
-        this.password = password;
-    }
+  public User(String firstName, String lastname, String username, String email, String password) {
+    this.firstName = firstName;
+    this.lastName = lastname;
+    this.username = username;
+    this.email = email;
+    this.password = password;
+  }
 
-    public User(String firstName, String lastname, String username, String email, String password, Set<Role> roles) {
-        this.firstName = firstName;
-        this.lastName = lastname;
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.roles = roles;
-    }
+  public User(
+      String firstName,
+      String lastname,
+      String username,
+      String email,
+      String password,
+      Set<Role> roles) {
+    this.firstName = firstName;
+    this.lastName = lastname;
+    this.username = username;
+    this.email = email;
+    this.password = password;
+    this.roles = roles;
+  }
 }

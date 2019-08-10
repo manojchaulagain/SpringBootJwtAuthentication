@@ -14,41 +14,41 @@ import java.util.Date;
 @RefreshScope
 public class HealthCheckController {
 
-    @Value("${message.default.welcome}")
-    private String welcomeMessage;
+  @Value("${message.default.welcome}")
+  private String welcomeMessage;
 
-    @GetMapping("/monitor")
-    public ResponseEntity healthCheck() {
-        return ResponseEntity.ok(new HealthCheck());
+  @GetMapping("/monitor")
+  public ResponseEntity healthCheck() {
+    return ResponseEntity.ok(new HealthCheck());
+  }
+
+  @GetMapping("/value")
+  public ResponseEntity<?> getValue() {
+    return ResponseEntity.ok(welcomeMessage);
+  }
+
+  class HealthCheck {
+
+    private boolean isLive;
+    private String message;
+    private String upTime;
+
+    HealthCheck() {
+      isLive = true;
+      message = "The api is up and running";
+      upTime = new Date().toString();
     }
 
-    @GetMapping("/value")
-    public ResponseEntity<?> getValue() {
-        return ResponseEntity.ok(welcomeMessage);
+    public boolean isLive() {
+      return isLive;
     }
 
-    class HealthCheck {
-
-        private boolean isLive;
-        private String message;
-        private String upTime;
-
-        HealthCheck() {
-            isLive = true;
-            message = "The api is up and running";
-            upTime = new Date().toString();
-        }
-
-        public boolean isLive() {
-            return isLive;
-        }
-
-        public String getMessage() {
-            return message;
-        }
-
-        public String getUpTime() {
-            return upTime;
-        }
+    public String getMessage() {
+      return message;
     }
+
+    public String getUpTime() {
+      return upTime;
+    }
+  }
 }

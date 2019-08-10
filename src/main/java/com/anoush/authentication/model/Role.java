@@ -9,12 +9,11 @@ import org.springframework.data.annotation.Id;
 @Setter
 @NoArgsConstructor
 public class Role {
-    @Id
-    private String id;
+  @Id private String id;
 
-    private RoleName name;
+  private RoleName name;
 
-    public Role(RoleName name) {
-        this.name = name;
-    }
+  public Role(RoleName name) {
+    this.name = name;
+  }
 }

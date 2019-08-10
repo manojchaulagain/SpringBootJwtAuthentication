@@ -16,26 +16,28 @@ import java.util.Optional;
 @RequestMapping("/api/countries")
 public class CountryController {
 
-    private final CountryRepository countryRepository;
+  private final CountryRepository countryRepository;
 
-    @Autowired
-    public CountryController(CountryRepository countryRepository) {
-        this.countryRepository = countryRepository;
-    }
+  @Autowired
+  public CountryController(CountryRepository countryRepository) {
+    this.countryRepository = countryRepository;
+  }
 
-    @GetMapping("/{countryName}")
-    @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> getCountryByName(@PathVariable String countryName) {
-        if (Strings.isNullOrEmpty(countryName)) {
-            return ResponseEntity.badRequest().build();
-        }
-        Optional<Country> countryOptional = countryRepository.findByName(countryName);
-        return countryOptional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+  @GetMapping("/{countryName}")
+  @PreAuthorize("hasRole('USER')")
+  public ResponseEntity<?> getCountryByName(@PathVariable String countryName) {
+    if (Strings.isNullOrEmpty(countryName)) {
+      return ResponseEntity.badRequest().build();
     }
+    Optional<Country> countryOptional = countryRepository.findByName(countryName);
+    return countryOptional
+        .map(ResponseEntity::ok)
+        .orElseGet(() -> ResponseEntity.notFound().build());
+  }
 
-    @GetMapping("")
-    @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<List<Country>> getAllCountries() {
-        return ResponseEntity.ok(countryRepository.findAll());
-    }
+  @GetMapping("")
+  @PreAuthorize("hasRole('USER')")
+  public ResponseEntity<List<Country>> getAllCountries() {
+    return ResponseEntity.ok(countryRepository.findAll());
+  }
 }

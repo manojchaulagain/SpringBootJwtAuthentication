@@ -1,100 +1,100 @@
 version: "2"
 services:
-#  gitlab:
-#    container_name: gitlab
-#    image: gitlab/gitlab-ce
-#    user: root
-#    ports:
-#      - "8080:8080"
-#      - "8443:8443"
-#      - "50000:50000"
-#    volumes:
-#      - jenkins_data:/var/jenkins_home
-#      - jenkins_home:/home
-#      - /var/run/docker.sock:/var/run/docker.sock
+  #  gitlab:
+  #    container_name: gitlab
+  #    image: gitlab/gitlab-ce
+  #    user: root
+  #    ports:
+  #      - "8080:8080"
+  #      - "8443:8443"
+  #      - "50000:50000"
+  #    volumes:
+  #      - jenkins_data:/var/jenkins_home
+  #      - jenkins_home:/home
+  #      - /var/run/docker.sock:/var/run/docker.sock
 
-#  zookeeper:
-#    container_name: zookeeper
-#    build:
-#      context: .
-#      dockerfile: docs/zookeeper/Dockerfile
-#    image: zookeeper
-#    ports:
-#      - "2181:2181"
-#  kafka:
-#    container_name: kafka
-#    build:
-#      context: .
-#      dockerfile: docs/kafka/Dockerfile
-#      args:
-#        listeners: PLAINTEXT://localhost:9092
-#    image: kafka
-#    ports:
-#      - "9092:9092"
-#    depends_on:
-#      - zookeeper
-#  kafka1:
-#    container_name: kafka1
-#    build:
-#      context: .
-#      dockerfile: docs/kafka1/Dockerfile
-#      args:
-#        listeners: PLAINTEXT://localhost:9093
-#    image: kafka
-#    ports:
-#      - "9094:9094"
-#    depends_on:
-#      - zookeeper
+  #  zookeeper:
+  #    container_name: zookeeper
+  #    build:
+  #      context: .
+  #      dockerfile: docs/zookeeper/Dockerfile
+  #    image: zookeeper
+  #    ports:
+  #      - "2181:2181"
+  #  kafka:
+  #    container_name: kafka
+  #    build:
+  #      context: .
+  #      dockerfile: docs/kafka/Dockerfile
+  #      args:
+  #        listeners: PLAINTEXT://localhost:9092
+  #    image: kafka
+  #    ports:
+  #      - "9092:9092"
+  #    depends_on:
+  #      - zookeeper
+  #  kafka1:
+  #    container_name: kafka1
+  #    build:
+  #      context: .
+  #      dockerfile: docs/kafka1/Dockerfile
+  #      args:
+  #        listeners: PLAINTEXT://localhost:9093
+  #    image: kafka
+  #    ports:
+  #      - "9094:9094"
+  #    depends_on:
+  #      - zookeeper
 
-#  app1:
-#    container_name: app1
-#    build:
-#      context: .
-#      dockerfile: Dockerfile
-#    image: sbapp
-#    tty: true
-#    volumes:
-#      - './application/src:/backend-dir-inside-container'
-#    environment:
-#      - SPRING_DATA_MONGODB_URL=mongodb://appmongodb:27017/anoush
-#    depends_on:
-#      - mongo
-#  app2:
-#    container_name: app2
-#    build:
-#      context: .
-#      dockerfile: Dockerfile
-#    image: sbapp
-#    tty: true
-#    volumes:
-#      - './application/src:/backend-dir-inside-container'
-#    environment:
-#      - SPRING_DATA_MONGODB_URL=mongodb://appmongodb:27017/anoush
-#    depends_on:
-#      - mongo
-#  app3:
-#    container_name: app3
-#    build:
-#      context: .
-#      dockerfile: Dockerfile
-#    image: sbapp
-#    tty: true
-#    volumes:
-#      - './application/src:/backend-dir-inside-container'
-#    environment:
-#      - SPRING_DATA_MONGODB_URL=mongodb://appmongodb:27017/anoush
-#    depends_on:
-#      - mongo
-#  loadbalancer:
-#    container_name: lb
-#    build: ./nginx
-#    tty: true
-#    links:
-#      - app1
-#      - app2
-#      - app3
-#    ports:
-#      - '8082:8082'
+  #  app1:
+  #    container_name: app1
+  #    build:
+  #      context: .
+  #      dockerfile: Dockerfile
+  #    image: sbapp
+  #    tty: true
+  #    volumes:
+  #      - './application/src:/backend-dir-inside-container'
+  #    environment:
+  #      - SPRING_DATA_MONGODB_URL=mongodb://appmongodb:27017/anoush
+  #    depends_on:
+  #      - mongo
+  #  app2:
+  #    container_name: app2
+  #    build:
+  #      context: .
+  #      dockerfile: Dockerfile
+  #    image: sbapp
+  #    tty: true
+  #    volumes:
+  #      - './application/src:/backend-dir-inside-container'
+  #    environment:
+  #      - SPRING_DATA_MONGODB_URL=mongodb://appmongodb:27017/anoush
+  #    depends_on:
+  #      - mongo
+  #  app3:
+  #    container_name: app3
+  #    build:
+  #      context: .
+  #      dockerfile: Dockerfile
+  #    image: sbapp
+  #    tty: true
+  #    volumes:
+  #      - './application/src:/backend-dir-inside-container'
+  #    environment:
+  #      - SPRING_DATA_MONGODB_URL=mongodb://appmongodb:27017/anoush
+  #    depends_on:
+  #      - mongo
+  #  loadbalancer:
+  #    container_name: lb
+  #    build: ./nginx
+  #    tty: true
+  #    links:
+  #      - app1
+  #      - app2
+  #      - app3
+  #    ports:
+  #      - '8082:8082'
   mongo:
     container_name: appmongodb
     image: mongo

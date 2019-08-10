@@ -2,8 +2,6 @@ package com.anoush.authentication.security.jwt;
 
 import com.anoush.authentication.security.services.UserDetailsServiceImpl;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,42 +18,42 @@ import java.io.IOException;
 @Slf4j
 public class JwtAuthTokenFilter extends OncePerRequestFilter {
 
-    @Autowired
-    private JwtProvider tokenProvider;
+  @Autowired private JwtProvider tokenProvider;
 
-    @Autowired
-    private UserDetailsServiceImpl userDetailsService;
+  @Autowired private UserDetailsServiceImpl userDetailsService;
 
-    @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-            throws ServletException, IOException {
-        try {
+  @Override
+  protected void doFilterInternal(
+      HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+      throws ServletException, IOException {
+    try {
 
-            String jwt = getJwt(request);
-            if (jwt != null && tokenProvider.validateJwtToken(jwt)) {
-                String username = tokenProvider.getUserNameFromJwtToken(jwt);
+      String jwt = getJwt(request);
+      if (jwt != null && tokenProvider.validateJwtToken(jwt)) {
+        String username = tokenProvider.getUserNameFromJwtToken(jwt);
 
-                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-                UsernamePasswordAuthenticationToken authentication
-                        = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+        UsernamePasswordAuthenticationToken authentication =
+            new UsernamePasswordAuthenticationToken(
+                userDetails, null, userDetails.getAuthorities());
+        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-            }
-        } catch (Exception e) {
-            log.error("Can NOT set user authentication -> Message: {0}", e);
-        }
-
-        filterChain.doFilter(request, response);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+      }
+    } catch (Exception e) {
+      log.error("Can NOT set user authentication -> Message: {0}", e);
     }
 
-    private String getJwt(HttpServletRequest request) {
-        String authHeader = request.getHeader("Authorization");
+    filterChain.doFilter(request, response);
+  }
 
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            return authHeader.replace("Bearer ", "");
-        }
+  private String getJwt(HttpServletRequest request) {
+    String authHeader = request.getHeader("Authorization");
 
-        return null;
+    if (authHeader != null && authHeader.startsWith("Bearer ")) {
+      return authHeader.replace("Bearer ", "");
     }
+
+    return null;
+  }
 }

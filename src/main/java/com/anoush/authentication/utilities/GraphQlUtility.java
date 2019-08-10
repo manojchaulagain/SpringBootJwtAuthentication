@@ -17,62 +17,58 @@ import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
 
-/**
- * Created using IntelliJ IDEA
- * User: Manoj Chaulagain
- * Date: 2019-05-04
- * Time: 03:36
- */
+/** Created using IntelliJ IDEA User: Manoj Chaulagain Date: 2019-05-04 Time: 03:36 */
 @Component
 @RefreshScope
 public class GraphQlUtility {
 
-   /*--------------------------------------------
-    |             C O N S T A N T S             |
-    ============================================*/
+  /*--------------------------------------------
+  |             C O N S T A N T S             |
+  ============================================*/
 
-    /*--------------------------------------------
-     |    I N S T A N C E   V A R I A B L E S    |
-     ============================================*/
-    @Value("classpath:models.graphqls")
-    private Resource schemaResource;
-    private GraphQL graphQL;
-    private AllUsersDataFetcher allUsersDataFetcher;
+  /*--------------------------------------------
+  |    I N S T A N C E   V A R I A B L E S    |
+  ============================================*/
+  @Value("classpath:models.graphqls")
+  private Resource schemaResource;
 
-   /*--------------------------------------------
-    |         C O N S T R U C T O R S           |
-    ============================================*/
+  private GraphQL graphQL;
+  private AllUsersDataFetcher allUsersDataFetcher;
 
-    @Autowired
-    public GraphQlUtility(AllUsersDataFetcher allUsersDataFetcher) {
-        this.allUsersDataFetcher = allUsersDataFetcher;
-    }
+  /*--------------------------------------------
+  |         C O N S T R U C T O R S           |
+  ============================================*/
 
-   /*--------------------------------------------
-    |   P U B L I C    A P I    M E T H O D S   |
-    ============================================*/
+  @Autowired
+  public GraphQlUtility(AllUsersDataFetcher allUsersDataFetcher) {
+    this.allUsersDataFetcher = allUsersDataFetcher;
+  }
 
-   @PostConstruct
-    public GraphQL createGraphQlObject() throws IOException {
-        File schemas = schemaResource.getFile();
-        TypeDefinitionRegistry typeDefinitionRegistry = new SchemaParser().parse(schemas);
-        RuntimeWiring wiring = buildRuntimeWiring();
-        GraphQLSchema schema = new SchemaGenerator().makeExecutableSchema(typeDefinitionRegistry, wiring);
-        return GraphQL.newGraphQL(schema).build();
-    }
+  /*--------------------------------------------
+  |   P U B L I C    A P I    M E T H O D S   |
+  ============================================*/
 
-    public RuntimeWiring buildRuntimeWiring() {
-        return RuntimeWiring.newRuntimeWiring()
-                .type("Query", typeWiring -> typeWiring
-                        .dataFetcher("users", allUsersDataFetcher))
-                .build();
-    }
-   /*--------------------------------------------
-    |    N O N - P U B L I C    M E T H O D S   |
-    ============================================*/
+  @PostConstruct
+  public GraphQL createGraphQlObject() throws IOException {
+    File schemas = schemaResource.getFile();
+    TypeDefinitionRegistry typeDefinitionRegistry = new SchemaParser().parse(schemas);
+    RuntimeWiring wiring = buildRuntimeWiring();
+    GraphQLSchema schema =
+        new SchemaGenerator().makeExecutableSchema(typeDefinitionRegistry, wiring);
+    return GraphQL.newGraphQL(schema).build();
+  }
 
-   /*--------------------------------------------
-    |   A C C E S S O R S / M O D I F I E R S   |
-    ============================================*/
+  public RuntimeWiring buildRuntimeWiring() {
+    return RuntimeWiring.newRuntimeWiring()
+        .type("Query", typeWiring -> typeWiring.dataFetcher("users", allUsersDataFetcher))
+        .build();
+  }
+  /*--------------------------------------------
+  |    N O N - P U B L I C    M E T H O D S   |
+  ============================================*/
+
+  /*--------------------------------------------
+  |   A C C E S S O R S / M O D I F I E R S   |
+  ============================================*/
 
 }

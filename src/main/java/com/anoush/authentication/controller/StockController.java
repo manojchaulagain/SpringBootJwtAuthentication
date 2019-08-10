@@ -16,26 +16,28 @@ import java.util.Optional;
 @RequestMapping("/api/stocks")
 public class StockController {
 
-    private final StockSymbolRepository stockSymbolRepository;
+  private final StockSymbolRepository stockSymbolRepository;
 
-    @Autowired
-    public StockController(StockSymbolRepository stockSymbolRepository) {
-        this.stockSymbolRepository = stockSymbolRepository;
-    }
+  @Autowired
+  public StockController(StockSymbolRepository stockSymbolRepository) {
+    this.stockSymbolRepository = stockSymbolRepository;
+  }
 
-    @GetMapping("/{symbol}")
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ResponseEntity<?> getBySymbol(@PathVariable String symbol) {
-        if (Strings.isNullOrEmpty(symbol)) {
-            return ResponseEntity.badRequest().build();
-        }
-        Optional<StockSymbol> countryOptional = stockSymbolRepository.findBySymbol(symbol);
-        return countryOptional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+  @GetMapping("/{symbol}")
+  @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+  public ResponseEntity<?> getBySymbol(@PathVariable String symbol) {
+    if (Strings.isNullOrEmpty(symbol)) {
+      return ResponseEntity.badRequest().build();
     }
+    Optional<StockSymbol> countryOptional = stockSymbolRepository.findBySymbol(symbol);
+    return countryOptional
+        .map(ResponseEntity::ok)
+        .orElseGet(() -> ResponseEntity.notFound().build());
+  }
 
-    @GetMapping("")
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ResponseEntity<List<StockSymbol>> getSymbols() {
-        return ResponseEntity.ok(stockSymbolRepository.findAll());
-    }
+  @GetMapping("")
+  @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+  public ResponseEntity<List<StockSymbol>> getSymbols() {
+    return ResponseEntity.ok(stockSymbolRepository.findAll());
+  }
 }
