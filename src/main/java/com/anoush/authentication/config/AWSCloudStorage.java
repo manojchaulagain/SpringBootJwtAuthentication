@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 
-@Component("awsCloudStorage")
+//@Component("awsCloudStorage")
 public class AWSCloudStorage implements CloudStorage {
 
   private final String awsS3DataBucket;

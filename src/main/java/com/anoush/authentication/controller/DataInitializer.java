@@ -89,6 +89,7 @@ public class DataInitializer implements CommandLineRunner {
     }
   }
 
+  @SuppressWarnings("unchecked")
   private List<CsvBean> beanBuilder(Path path, Class clazz) throws Exception {
     CsvTransfer csvTransfer = new CsvTransfer();
     HeaderColumnNameMappingStrategy<StockSymbol> ms = new HeaderColumnNameMappingStrategy<>();

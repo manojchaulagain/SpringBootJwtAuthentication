@@ -1,6 +1,8 @@
 package com.anoush.authentication.model;
 
-public static class Model {
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public class Model {
     @JsonProperty
     private String username;
     @JsonProperty

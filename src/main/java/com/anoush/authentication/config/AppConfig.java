@@ -8,12 +8,19 @@ import com.amazonaws.services.securitytoken.AWSSecurityTokenServiceClientBuilder
 import com.amazonaws.services.securitytoken.model.Credentials;
 import com.amazonaws.services.securitytoken.model.GetSessionTokenRequest;
 import com.amazonaws.services.securitytoken.model.GetSessionTokenResult;
+import com.anoush.authentication.model.Model;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration
+import java.io.IOException;
+
+//@Configuration
 @Slf4j
 // @PropertySource("classpath:application.properties")
 public class AppConfig {
@@ -28,6 +35,12 @@ public class AppConfig {
 
   @Value("${aws.temporary.credentials.validity.duration}")
   String credentialsValidityDuration;
+
+  @Value("${secret.string}")
+  String secretString;
+
+  @Autowired
+  ObjectMapper objectMapper;
 
   @Bean(name = "awsRegion")
   public Region awsRegion() {
@@ -59,8 +72,21 @@ public class AppConfig {
         credentials.getSessionToken());
   }
 
+  @Bean
+  public Model modelManager() {
+    Model m = null;
+    try {
+      System.out.println(secretString);
+      m = objectMapper.readValue(secretString, Model.class);
+    } catch (IOException e) {
+      log.error(e.getMessage(), e);
+    }
+    return m;
+  }
+
   @Bean(name = "awsS3DataBucket")
   public String awsS3DataBucket() {
     return awsS3DataBucket;
   }
+
 }
