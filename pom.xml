@@ -22,7 +22,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <guava.version>27.1-jre</guava.version>
+        <guava.version>29.0-jre</guava.version>
         <jjwt.version>0.9.1</jjwt.version>
         <jaxb-api.version>2.4.0-b180830.0359</jaxb-api.version>
         <opencsv.version>4.5</opencsv.version>
